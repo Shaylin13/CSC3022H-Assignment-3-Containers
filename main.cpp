@@ -75,7 +75,11 @@ void HuffmanTree::outputData(std::string outputFile,std::string inputFile)
      cout<<"\ncompressed version (in bits):"<<endl;
      cout<<codeString<<endl;
      //write code to file
-     
+     //ofstream outFile;
+     outFile.open(outputFile+".bin");
+     outFile<<codeString;
+     outFile.close();
+     cout<<outputFile<<".bin file created"<<endl;
 }
 
 //---------------------------------------------------------------------------------------{

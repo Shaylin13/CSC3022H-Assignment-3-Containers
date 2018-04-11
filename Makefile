@@ -9,6 +9,7 @@ main.o: main.cpp HuffmanTree.h
 clean:
 	rm -f *.o huffencode
 	rm -f *.hdr
+	rm -f *.bin
 
 run:
 	./huffencode "input.txt" "output"

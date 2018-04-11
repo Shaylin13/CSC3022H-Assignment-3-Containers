@@ -66,7 +66,6 @@ void HuffmanTree::outputData(std::string outputFile,std::string inputFile)
             while(line[i]!='\0')
             {
                 it = this->CodeTable.find(line[i]);
-                //cout<<it->second;
                 codeString = codeString+it->second;
                 i++;
             }
@@ -75,6 +74,8 @@ void HuffmanTree::outputData(std::string outputFile,std::string inputFile)
      }
      cout<<"\ncompressed version (in bits):"<<endl;
      cout<<codeString<<endl;
+     //write code to file
+     
 }
 
 //---------------------------------------------------------------------------------------{
@@ -121,7 +122,8 @@ void HuffmanTree::buildFrequencyTable(string inputFile)
 
 //======================================================================================={
 
-struct compare {
+struct compare
+    {
  
         bool operator()(const HuffmanNode& l, const HuffmanNode& r)
         {
@@ -145,12 +147,10 @@ void getCodes(const HuffmanNode& root, string str, class HuffmanTree *h)
         {getCodes(*root.right, str + "1",h);}
     }
     
-}//end of printCodes()
+}
 
 void HuffmanTree::generateTree(unordered_map<char,int> u_map)
-{
-    //cout<<"generateTree"<<endl;
-    
+{   
     class HuffmamnNode;//forward declaration to inform program of the class HuffmanNode because it is dumb
  
     // Create a min heap & inserts all characters of data[]
@@ -205,6 +205,8 @@ HuffmanNode::HuffmanNode(char data, int freq)
 HuffmanNode::~HuffmanNode()
 {
     //cout<<"HuffmanNode() destructor "<<this->data<<endl;
+    left = nullptr;
+    right = nullptr;
 }
 
 //default constructor

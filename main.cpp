@@ -11,11 +11,13 @@
 using namespace std;
 using namespace PDYSHA009;
 
-HuffmanTree::HuffmanTree()//default constructor
+//default constructor
+HuffmanTree::HuffmanTree()
 {
     cout<<"HuffmanTree() default constructor"<<endl;
 }
-HuffmanTree::~HuffmanTree()//default destructor
+//default destructor
+HuffmanTree::~HuffmanTree()
 {
     cout<<"HuffmanTree() destructor"<<endl;
     this->root = nullptr;
@@ -63,11 +65,6 @@ void HuffmanTree::outputData(std::string outputFile,std::string inputFile)
         map<char,string>::iterator it;
             while(line[i]!='\0')
             {
-                /*it=(this->CodeTable).find(line[i]);
-                if(it==(this->CodeTable).end())
-                {
-                    cout<<it<<endl;
-                }*/
                 it = this->CodeTable.find(line[i]);
                 //cout<<it->second;
                 codeString = codeString+it->second;
@@ -194,19 +191,62 @@ void HuffmanTree::generateTree(unordered_map<char,int> u_map)
 }
 
 //=======================================================================================}
-
-HuffmanNode::HuffmanNode(char data, int freq)//default constructor
+//constructor
+HuffmanNode::HuffmanNode(char data, int freq)
 {
-    //cout<<"HuffmanNode() default constructor"<<endl;
+    //cout<<"HuffmanNode() constructor"<<endl;
     this->data = data;
     this->freq = freq;
     this->left=nullptr;
     this->right=nullptr;
 }
 
-HuffmanNode::~HuffmanNode()//default destructor
+//destructor
+HuffmanNode::~HuffmanNode()
 {
     //cout<<"HuffmanNode() destructor "<<this->data<<endl;
+}
+
+//default constructor
+HuffmanNode::HuffmanNode()
+{
+    data = '$';
+    freq = 0;
+}
+
+//copy constructor
+HuffmanNode::HuffmanNode(const HuffmanNode& other)
+{
+    data = other.data;
+    freq = other.freq;
+    left = other.left;
+    right = other.right;
+}
+
+//move constructor
+HuffmanNode::HuffmanNode(HuffmanNode&& other)
+{
+    data = other.data;
+    freq = other.freq;
+    left = other.left;
+    right = other.right;
+    
+    other.left = nullptr;
+    other.right = nullptr;
+    other.freq = 0;
+}
+
+//assignment operator =
+HuffmanNode& HuffmanNode::operator=(const HuffmanNode& other)
+{
+    if(this == &other)
+    {
+        return *this;
+    }
+    data = other.data;
+    freq = other.freq;
+    left = other.left;
+    right = other.right;
 }
 
 

@@ -20,8 +20,8 @@ namespace PDYSHA009
         std::map<char,std::string> CodeTable;
 
         HuffmanTree();//default constructor
-        ~HuffmanTree();//destructor
         
+        ~HuffmanTree();//destructor
         
         void buildFrequencyTable(std::string inputFile);
         void generateTree(std::unordered_map<char,int> u_map);
@@ -37,17 +37,30 @@ namespace PDYSHA009
         char data;
         int freq;
         
-        ///*std::shared_ptr<HuffmanNode>*/HuffmanNode *left;
-        ///*std::shared_ptr<HuffmanNode>*/HuffmanNode *right;
-        
         std::shared_ptr<HuffmanNode> left;
         std::shared_ptr<HuffmanNode> right;
         
-        bool internalNode;
+        //constructor
+        HuffmanNode(char data, int freq);
         
-        HuffmanNode(char data, int freq);//default constructor
-        //HuffmanNode(char data, int freq, shared_ptr<HuffmanNode> l, shared_ptr<HuffmanNode> r);
-        ~HuffmanNode();//destructor
+        //default constructor
+        HuffmanNode();
+        
+        //destructor
+        ~HuffmanNode();
+        
+        //copy constructor
+        HuffmanNode(const HuffmanNode& other);
+        
+        //move constructor
+        HuffmanNode(HuffmanNode&& other);
+        
+        //assignment operator
+        HuffmanNode& operator=(const HuffmanNode& other);
+        
+        
+        
+        
         
     };
 

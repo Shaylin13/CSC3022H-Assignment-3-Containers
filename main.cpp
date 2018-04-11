@@ -21,7 +21,7 @@ HuffmanTree::~HuffmanTree()//default destructor
     this->root = nullptr;
 }
 
-void HuffmanTree::outputData(std::string outputFile)
+void HuffmanTree::outputData(std::string outputFile,std::string inputFile)
 {
     
     ofstream outFile;
@@ -39,7 +39,45 @@ void HuffmanTree::outputData(std::string outputFile)
             }
     outFile.close();
     cout<<outputFile<<".hdr Header file created"<<endl;
+    
+    
     //make binary file
+    ifstream inFile(inputFile);//Tries to open file user specified
+    string codeString;
+    if(inFile.fail())//if there is a problem opening the file
+    {
+        cout<<"Failed to open file"<<endl;
+        return;
+    }
+    else//if the file is opened successfully
+    {
+        //cout<<"successfully opened file :"<<inputFile<<"\n"<<endl;
+        
+        //store all text in buffer to be analysed as one input instead of line by line, take into consideration \n as char
+        stringstream buffer;
+        buffer<<inFile.rdbuf();
+        string line(buffer.str());
+            
+        //counting the occurances of chars and adding to unordered_map
+        int i=0;
+        map<char,string>::iterator it;
+            while(line[i]!='\0')
+            {
+                /*it=(this->CodeTable).find(line[i]);
+                if(it==(this->CodeTable).end())
+                {
+                    cout<<it<<endl;
+                }*/
+                it = this->CodeTable.find(line[i]);
+                //cout<<it->second;
+                codeString = codeString+it->second;
+                i++;
+            }
+        
+        inFile.close();//when finished with file reader to prevent memory leaks
+     }
+     cout<<"\ncompressed version (in bits):"<<endl;
+     cout<<codeString<<endl;
 }
 
 //---------------------------------------------------------------------------------------{
@@ -114,12 +152,9 @@ void getCodes(const HuffmanNode& root, string str, class HuffmanTree *h)
 
 void HuffmanTree::generateTree(unordered_map<char,int> u_map)
 {
-    cout<<"generateTree"<<endl;
+    //cout<<"generateTree"<<endl;
     
-    class HuffmamnNode;
-    /*shared_ptr<HuffmanNode> left = nullptr;
-    shared_ptr<HuffmanNode> right = nullptr;
-    shared_ptr<HuffmanNode> top;*/
+    class HuffmamnNode;//forward declaration to inform program of the class HuffmanNode because it is dumb
  
     // Create a min heap & inserts all characters of data[]
     priority_queue<HuffmanNode, vector<HuffmanNode>, compare> minHeap;
@@ -141,8 +176,6 @@ void HuffmanTree::generateTree(unordered_map<char,int> u_map)
             minHeap.pop();
             
             HuffmanNode top('$',(left.freq + right.freq));
-            //top.left = shared_ptr<HuffmanNode>(new HuffmanNode(left.data,left.freq));
-            //top.right = shared_ptr<HuffmanNode>(new HuffmanNode(right.data,right.freq));
             
             top.left = shared_ptr<HuffmanNode>(new HuffmanNode(left));
             top.right = shared_ptr<HuffmanNode>(new HuffmanNode(right));
@@ -156,9 +189,7 @@ void HuffmanTree::generateTree(unordered_map<char,int> u_map)
     
     // add huffman codes to CodeTable using
     // the Huffman tree built above
-    //rootNode = minHeap.top();
-    //cout<<"Root Node"<<rootNode->data<<endl;
-    getCodes(root, "",this);
+        getCodes(root, "",this);
     
 }
 
@@ -193,11 +224,11 @@ HuffmanTree newHuffmanTree;
 //cout<<newHuffmanTree.root->data<<endl;
 newHuffmanTree.buildFrequencyTable(argv[1]);
 newHuffmanTree.HuffmanTree::generateTree(newHuffmanTree.HuffmanTree::FrequencyTable);
-newHuffmanTree.HuffmanTree::outputData(argv[2]);
+newHuffmanTree.HuffmanTree::outputData(argv[2],argv[1]);
 //===================================================
 
 //test that FrequencyTable is correct
-    cout<<"\nFrequency Table:\n"<<endl;
+    cout<<"\nFrequency Table:"<<endl;
     cout<<"char : Frequency\n"<<endl;
         unordered_map<char,int> u_map = newHuffmanTree.HuffmanTree::FrequencyTable;
         unordered_map<char,int>::iterator it;
@@ -211,7 +242,7 @@ newHuffmanTree.HuffmanTree::outputData(argv[2]);
             cout<<"\n"<<endl;
             
 //test that CodeTable is correct
-    cout<<"char : Huffman Code\n"<<endl;
+    cout<<"Code Table:\nchar : Huffman Code\n"<<endl;
         map<char,string> n_map = newHuffmanTree.HuffmanTree::CodeTable;
         map<char,string>::iterator it2;
         for(it2=n_map.begin();it2!=n_map.end();++it2)

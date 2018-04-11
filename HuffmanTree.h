@@ -25,7 +25,7 @@ namespace PDYSHA009
         
         void buildFrequencyTable(std::string inputFile);
         void generateTree(std::unordered_map<char,int> u_map);
-        void outputData(std::string outputFile);
+        void outputData(std::string outputFile,std::string inputFile);
         
         
     };

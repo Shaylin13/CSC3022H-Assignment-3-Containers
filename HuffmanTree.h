@@ -55,8 +55,11 @@ namespace PDYSHA009
         //move constructor
         HuffmanNode(HuffmanNode&& other);
         
-        //assignment operator
+        //copy assignment operator
         HuffmanNode& operator=(const HuffmanNode& other);
+        
+        //move assignment operator
+        HuffmanNode& operator=(HuffmanNode&& other);
         
         
         

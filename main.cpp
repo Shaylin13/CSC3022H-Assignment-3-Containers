@@ -238,7 +238,7 @@ HuffmanNode::HuffmanNode(HuffmanNode&& other)
     other.freq = 0;
 }
 
-//assignment operator =
+//copy assignment operator =
 HuffmanNode& HuffmanNode::operator=(const HuffmanNode& other)
 {
     if(this == &other)
@@ -249,6 +249,23 @@ HuffmanNode& HuffmanNode::operator=(const HuffmanNode& other)
     freq = other.freq;
     left = other.left;
     right = other.right;
+}
+
+//move assignment operator
+HuffmanNode& HuffmanNode::operator=(HuffmanNode&& other)
+{
+    if(this ==&other)
+    {
+        return *this;
+    }
+    data = other.data;
+    freq = other.freq;
+    left = other.left;
+    right = other.right;
+    
+    other.left = nullptr;
+    other.right = nullptr;
+    other.freq = 0;
 }
 
 

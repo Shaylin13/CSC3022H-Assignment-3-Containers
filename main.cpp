@@ -21,6 +21,27 @@ HuffmanTree::~HuffmanTree()//default destructor
     this->root = nullptr;
 }
 
+void HuffmanTree::outputData(std::string outputFile)
+{
+    
+    ofstream outFile;
+    outFile.open(outputFile+".hdr");
+    //write header
+        map<char,string> n_map = this->CodeTable;
+        map<char,string>::iterator it2;
+        outFile<<"Field count: "<<n_map.size()<<"\n"<<endl;
+        for(it2=n_map.begin();it2!=n_map.end();++it2)
+            {
+                if((it2->first)!='\n')
+                    outFile<<it2->first<<" :"<<it2->second<<endl;
+                else
+                    outFile<<"\\n"<<":"<<it2->second<<endl;
+            }
+    outFile.close();
+    cout<<outputFile<<".hdr Header file created"<<endl;
+    //make binary file
+}
+
 //---------------------------------------------------------------------------------------{
 void HuffmanTree::buildFrequencyTable(string inputFile)
 {
@@ -109,7 +130,7 @@ void HuffmanTree::generateTree(unordered_map<char,int> u_map)
                 HuffmanNode temp (it->first, it->second);
                 minHeap.push(temp);//pushing values from map onto priority queue
             }
-            cout<<"Priority queue size "<<minHeap.size()<<endl;
+            //cout<<"Number of distinct characters: "<<minHeap.size()<<endl;
             
         while(minHeap.size() >1)
         {
@@ -172,10 +193,11 @@ HuffmanTree newHuffmanTree;
 //cout<<newHuffmanTree.root->data<<endl;
 newHuffmanTree.buildFrequencyTable(argv[1]);
 newHuffmanTree.HuffmanTree::generateTree(newHuffmanTree.HuffmanTree::FrequencyTable);
+newHuffmanTree.HuffmanTree::outputData(argv[2]);
 //===================================================
 
 //test that FrequencyTable is correct
-    cout<<"Frequency Table:\n"<<endl;
+    cout<<"\nFrequency Table:\n"<<endl;
     cout<<"char : Frequency\n"<<endl;
         unordered_map<char,int> u_map = newHuffmanTree.HuffmanTree::FrequencyTable;
         unordered_map<char,int>::iterator it;
